@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Boss's sh*t</title>
+    <style>
+        *{
+           margin: 0;
+           padding: 0;
+           box-sizing: border-box;
+        }
+
+        body{
+           font-weight: 200;
+           color: var(--tg-theme-text-color);
+           background: var(--tg-theme-bg-color);
+        }
+
+        #main{
+           width: 100%;
+           padding: 20px;
+           text-align: center;
+        }
+
+        #img{
+           width: 13%;
+           margin: 20px;
+        }
+
+        #text{
+            width: 40%;
+            position: relative;
+            left: 30%;
+            margin-bottom: 1%;
+
+        }
+
+        #buy {
+          border: 0;
+          border-radius: 5px;
+          margin-top: 50px;
+          height: 60px;
+          width: 200px;
+          font-size: 20px;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 500ms ease;
+          color: var(--tg-theme-button-color);
+          background: var(--tg-theme-button-text-color);
+
+
+        }
+
+        #buy:hover {
+          background: var(--tg-theme-secondary-bg-color);
+
+        }
+
+        #form{
+            display: none;
+            text-align: center;
+        }
+
+        input{
+            width: 90%;
+            outline: none;
+            margin: 10px 5%;
+            padding: 15px 10px;
+            font-size: 14px;
+            border: 2px solid silver;
+            border-radius: 5px;
+            
+        }
+
+        input:focus{
+            border-color: #db5d5d;
+        }
+        
+        #order {
+          border: 0;
+          border-radius: 5px;
+          margin-top: 50px;
+          height: 60px;
+          width: 200px;
+          font-size: 20px;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 500ms ease;
+          color: var(--tg-theme-button-color);
+          background: var(--tg-theme-button-text-color);
+
+
+        }
+
+        #order:hover {
+          background: var(--tg-theme-secondary-bg-color);
+
+        }
+
+
+    </style>
+
+
+
+
+</head>
+<body>
+<div id="main">
+    <h1>Magasin en ligne</h1>
+    <img src="image.png" alt="image" id="img">
+    <div id="text">
+    <p>Bienvenue sur le site de Bosss. Ici vous pouvez commander tout ce que vous voulez sans se faire repérer. Ici c'est la street, le trafic continue avec khabib. PS: Boss est très agressif faites gaffe.</p>
+    </div>
+    <button id="buy">Acheter</button>
+</div>
+<form id="form">
+    <input type="text" placeholder="Nom" id="username">
+    <input type="text" placeholder="Email" id="user_email">
+    <input type="text" placeholder="Numéro de téléphone" id="user_phone">
+    <div id="error"></div>
+    <button id="order">Confirmer</button>
+</form>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script>
+    let tg = window.Telegram.WebApp;
+    let buy = document.getElementById("buy");
+    let order = document.getElementById("order");
+    tg.expand();
+
+    buy.addEventListener("click", () => {
+        document.getElementById("main").style.display = "none";
+        document.getElementById("form").style.display = "block";
+        document.getElementById("username").value = tg.initDataUnsafe.user.first_name + " " + tg.initDataUnsafe.user.last_name;
+
+    });
+
+    order.addEventListener("click", () => {
+
+        document.getElementById("error").innerText = '';
+        let name = document.getElementById("username").value;
+        let email = document.getElementById("user_email").value;
+        let phone = document.getElementById("user_phone").value;
+
+        if(name.length  < 5 ){
+            document.getElementById("error").innerText = 'Erreur dans le nom';
+            return;
+        }
+        if(email.length  < 5 ){
+            document.getElementById("error").innerText = "Erreur dans l'email";
+            return;
+        }
+        if(phone.length  <10 ){
+            document.getElementById("error").innerText = 'Erreur dans le numéro de téléphone';
+            return;
+        }
+
+        let data = {
+            name: name,
+            email: email,
+            phone: phone
+        }
+        tg.sendData(JSON.stringify(data));
+        tg.close();
+    });
+
+
+</script>
+</body>
+</html>
